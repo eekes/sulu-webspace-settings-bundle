@@ -39,12 +39,22 @@ final class SettingsSecurityChecker
         return $this->mode->appliesTo(\count($this->areaRegistry->getAreas()));
     }
 
-    public function checkPermission(string $webspaceKey, string $areaKey, string $permission): void
+    /**
+     * The umbrella context on its own, for callers that have to answer before they know which area
+     * is meant - resolving one reports which areas exist, which is already more than a user
+     * without this permission may see.
+     */
+    public function checkWebspacePermission(string $webspaceKey, string $permission): void
     {
         $this->securityChecker->checkPermission(
             new SecurityCondition(WebspaceSettingsAdmin::getSecurityContext($webspaceKey)),
             $permission,
         );
+    }
+
+    public function checkPermission(string $webspaceKey, string $areaKey, string $permission): void
+    {
+        $this->checkWebspacePermission($webspaceKey, $permission);
 
         $areaSecurityContext = $this->resolveAreaSecurityContext($webspaceKey, $areaKey);
 

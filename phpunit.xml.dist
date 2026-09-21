@@ -17,7 +17,7 @@
             Deprecations the bundle triggers itself fail the build; the ones Sulu and Symfony
             trigger internally are reported but tolerated, since this bundle cannot fix them.
         -->
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;ignoreFile=./tests/deprecations.ignore" />
     </php>
 
     <extensions>

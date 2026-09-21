@@ -53,9 +53,18 @@ final class WebspaceSettingsController
     {
         try {
             $webspace = $this->resolveWebspace($id);
+        } catch (WebspaceNotFoundException $exception) {
+            return $this->notFound($exception->getMessage());
+        }
+
+        // before the area is resolved: a "no such area" message names every declared area, and the
+        // area switcher already hides the ones this user may not open
+        $this->securityChecker->checkWebspacePermission($webspace->getKey(), PermissionTypes::VIEW);
+
+        try {
             $area = $this->resolveArea($request, $webspace);
             $locale = $this->resolveLocale($request, $webspace);
-        } catch (WebspaceNotFoundException|SettingsAreaNotFoundException|SettingsAreaNotAvailableException $exception) {
+        } catch (SettingsAreaNotFoundException|SettingsAreaNotAvailableException $exception) {
             return $this->notFound($exception->getMessage());
         } catch (UnsupportedLocaleException $exception) {
             return $this->badRequest($exception->getMessage());
@@ -79,9 +88,18 @@ final class WebspaceSettingsController
     {
         try {
             $webspace = $this->resolveWebspace($id);
+        } catch (WebspaceNotFoundException $exception) {
+            return $this->notFound($exception->getMessage());
+        }
+
+        // before the area is resolved: a "no such area" message names every declared area, and the
+        // area switcher already hides the ones this user may not open
+        $this->securityChecker->checkWebspacePermission($webspace->getKey(), PermissionTypes::EDIT);
+
+        try {
             $area = $this->resolveArea($request, $webspace);
             $locale = $this->resolveLocale($request, $webspace);
-        } catch (WebspaceNotFoundException|SettingsAreaNotFoundException|SettingsAreaNotAvailableException $exception) {
+        } catch (SettingsAreaNotFoundException|SettingsAreaNotAvailableException $exception) {
             return $this->notFound($exception->getMessage());
         } catch (UnsupportedLocaleException $exception) {
             return $this->badRequest($exception->getMessage());

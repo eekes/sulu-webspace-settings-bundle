@@ -37,6 +37,22 @@ class SettingsPermissionTest extends WebspaceSettingsTestCase
         $this->assertHttpStatusCode(Response::HTTP_FORBIDDEN, $this->client->getResponse());
     }
 
+    /**
+     * Resolving the area before the permission is checked would answer a user who holds nothing
+     * with a 404 naming every declared area - the very list the area switcher keeps from them.
+     */
+    public function testRefusesAnUnknownAreaWithoutNamingTheDeclaredOnes(): void
+    {
+        $this->authenticateWith([]);
+
+        $this->client->jsonRequest('GET', '/admin/api/webspace-settings/website?area=nope&locale=en');
+
+        $response = $this->client->getResponse();
+
+        $this->assertHttpStatusCode(Response::HTTP_FORBIDDEN, $response);
+        $this->assertStringNotContainsString('social', (string) $response->getContent());
+    }
+
     public function testAllowsReadingAnAreaWithTheViewPermission(): void
     {
         $this->authenticateWith([
