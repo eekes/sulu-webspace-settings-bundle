@@ -1,0 +1,84 @@
+{
+    "name": "eekes/sulu-webspace-settings-bundle",
+    "description": "Compose per-webspace settings in Sulu 3 the way you compose page templates, instead of one oversized global settings snippet.",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "keywords": [
+        "sulu",
+        "sulu-bundle",
+        "settings",
+        "webspace",
+        "cms"
+    ],
+    "authors": [
+        {
+            "name": "Ewald Vanderveken",
+            "email": "vandervekenewald@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "doctrine/collections": "^2.0",
+        "doctrine/dbal": "^3.6 || ^4.0",
+        "doctrine/orm": "^2.17 || ^3.0",
+        "sulu/sulu": "~3.0",
+        "symfony/config": "^6.4 || ^7.0",
+        "symfony/console": "^6.4 || ^7.0",
+        "symfony/dependency-injection": "^6.4 || ^7.0",
+        "symfony/event-dispatcher": "^6.4 || ^7.0",
+        "symfony/http-foundation": "^6.4 || ^7.0",
+        "symfony/http-kernel": "^6.4 || ^7.0",
+        "symfony/service-contracts": "^3.0",
+        "symfony/translation-contracts": "^3.0",
+        "symfony/uid": "^6.4 || ^7.0",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-bundle": "^2.11 || ^3.0",
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-doctrine": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^11.5",
+        "symfony/browser-kit": "^6.4 || ^7.0",
+        "symfony/css-selector": "^6.4 || ^7.0",
+        "symfony/dotenv": "^6.4 || ^7.0",
+        "symfony/phpunit-bridge": "^6.4 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eekes\\SuluWebspaceSettingsBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eekes\\SuluWebspaceSettingsBundle\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit",
+        "phpstan": "@php vendor/bin/phpstan analyse",
+        "lint": "@php vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "fix": "@php vendor/bin/php-cs-fixer fix"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.1-dev"
+        }
+    },
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://github.com/eekes/sulu-webspace-settings-bundle/issues",
+        "source": "https://github.com/eekes/sulu-webspace-settings-bundle"
+    }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+
+    <key>shop</key>
+
+    <meta>
+        <title lang="en">Shop</title>
+    </meta>
+
+    <properties>
+        <property name="checkout_notice" type="text_line" multilingual="false">
+            <meta>
+                <title lang="en">Checkout notice</title>
+            </meta>
+        </property>
+    </properties>
+</template>

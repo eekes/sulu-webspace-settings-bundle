@@ -1,0 +1,15 @@
+# The REST id of a settings record is its webspace key; the area travels as a query parameter.
+# The route name has to start with `get_` after the dot, otherwise Sulu does not expose it to the
+# admin JavaScript and the form cannot build its URL.
+sulu_webspace_settings.get_webspace_settings:
+    path: /webspace-settings/{id}.{_format}
+    methods: GET
+    controller: sulu_webspace_settings.admin_controller::getAction
+    format: json
+
+# Deliberately the same path: the admin issues its PUT against the detail URL.
+sulu_webspace_settings.put_webspace_settings:
+    path: /webspace-settings/{id}.{_format}
+    methods: PUT
+    controller: sulu_webspace_settings.admin_controller::putAction
+    format: json

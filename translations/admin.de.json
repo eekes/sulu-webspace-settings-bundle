@@ -1,0 +1,7 @@
+{
+    "sulu_webspace_settings.settings": "Einstellungen",
+    "sulu_webspace_settings.settings_activity": "Aktivität der Einstellungen",
+    "sulu_activity.resource.webspace_settings": "Webspace-Einstellungen",
+    "sulu_activity.description.webspace_settings.created": "{userFullName} hat die Einstellungen \"{resourceTitle}\" erstellt",
+    "sulu_activity.description.webspace_settings.modified": "{userFullName} hat die Einstellungen \"{resourceTitle}\" geändert"
+}

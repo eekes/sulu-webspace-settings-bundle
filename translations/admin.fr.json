@@ -1,0 +1,7 @@
+{
+    "sulu_webspace_settings.settings": "Paramètres",
+    "sulu_webspace_settings.settings_activity": "Activité des paramètres",
+    "sulu_activity.resource.webspace_settings": "Paramètres de l'espace web",
+    "sulu_activity.description.webspace_settings.created": "{userFullName} a créé les paramètres « {resourceTitle} »",
+    "sulu_activity.description.webspace_settings.modified": "{userFullName} a modifié les paramètres « {resourceTitle} »"
+}

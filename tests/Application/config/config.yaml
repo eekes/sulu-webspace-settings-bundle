@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # Read models are plain classes; they are only registered so that the
+    # #[AsSettingsArea] autoconfiguration sees them, exactly like in a consuming project.
+    Eekes\SuluWebspaceSettingsBundle\Tests\Application\Settings\:
+        resource: '../Settings/'
+
+    Eekes\SuluWebspaceSettingsBundle\Tests\Application\Command\:
+        resource: '../Command/'

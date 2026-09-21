@@ -1,0 +1,116 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+
+    <key>social</key>
+
+    <meta>
+        <title lang="en">Social</title>
+    </meta>
+
+    <properties>
+        <property name="facebook_url" type="text_line" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Facebook URL</title>
+            </meta>
+        </property>
+
+        <property name="teasers" type="smart_content" multilingual="false">
+            <meta>
+                <title lang="en">Teasers</title>
+            </meta>
+            <params>
+                <param name="provider" value="pages"/>
+            </params>
+        </property>
+
+        <property name="media" type="media_selection" multilingual="false">
+            <meta>
+                <title lang="en">Media</title>
+            </meta>
+        </property>
+
+        <property name="link" type="link" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Link</title>
+            </meta>
+        </property>
+
+        <property name="logo" type="single_media_selection" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Logo</title>
+            </meta>
+        </property>
+
+        <property name="landing_page" type="single_page_selection" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Landing page</title>
+            </meta>
+        </property>
+
+        <property name="related_pages" type="page_selection" multilingual="false">
+            <meta>
+                <title lang="en">Related pages</title>
+            </meta>
+        </property>
+
+        <property name="categories" type="category_selection" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Categories</title>
+            </meta>
+        </property>
+
+        <property name="tags" type="tag_selection" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Tags</title>
+            </meta>
+        </property>
+
+        <property name="snippets" type="snippet_selection" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Snippets</title>
+            </meta>
+        </property>
+
+        <property name="highlights" type="teaser_selection" multilingual="false">
+            <meta>
+                <title lang="en">Highlights</title>
+            </meta>
+        </property>
+
+        <property name="campaign_start" type="date" colspan="6" multilingual="false">
+            <meta>
+                <title lang="en">Campaign start</title>
+            </meta>
+        </property>
+
+        <block name="links" default-type="link" multilingual="false">
+            <meta>
+                <title lang="en">Links</title>
+            </meta>
+
+            <types>
+                <type name="link">
+                    <meta>
+                        <title lang="en">Link</title>
+                    </meta>
+
+                    <properties>
+                        <property name="label" type="text_line" multilingual="false">
+                            <meta>
+                                <title lang="en">Label</title>
+                            </meta>
+                        </property>
+
+                        <property name="url" type="text_line" multilingual="false">
+                            <meta>
+                                <title lang="en">URL</title>
+                            </meta>
+                        </property>
+                    </properties>
+                </type>
+            </types>
+        </block>
+    </properties>
+</template>

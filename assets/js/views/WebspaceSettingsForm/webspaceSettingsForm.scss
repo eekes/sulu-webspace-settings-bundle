@@ -1,0 +1,11 @@
+@import 'sulu-admin-bundle/containers/Application/variables.scss';
+
+/*
+    `views/Form` constrains itself to the same width, but the toolbar above it and the activity
+    trail that replaces it are ours and would otherwise stretch to the full width of the view -
+    leaving the fields visibly narrower than the bar on top of them.
+*/
+.settings-view {
+    max-width: $viewMaxWidth;
+    min-width: $viewMinWidth;
+}

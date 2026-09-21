@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+
+    <key>contact</key>
+
+    <meta>
+        <title lang="en">Contact</title>
+    </meta>
+
+    <properties>
+        <property name="opening_hours" type="text_line">
+            <meta>
+                <title lang="en">Opening hours</title>
+            </meta>
+        </property>
+
+        <property name="phone_number" type="text_line">
+            <meta>
+                <title lang="en">Phone number</title>
+            </meta>
+        </property>
+
+        <!-- shared by every locale, inside an area that is translatable for everything else -->
+        <property name="vat_number" type="text_line" multilingual="false">
+            <meta>
+                <title lang="en">VAT number</title>
+            </meta>
+        </property>
+    </properties>
+</template>
