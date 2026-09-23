@@ -27,7 +27,7 @@ Eekes\SuluWebspaceSettingsBundle\SuluWebspaceSettingsBundle::class => ['all' => 
 Import the admin API routes in `config/routes/sulu_admin.yaml`:
 
 ```yaml
-sulu_webspace_settings_api:
+eekes_sulu_webspace_settings_api:
     resource: "@SuluWebspaceSettingsBundle/config/routing_admin_api.yaml"
     prefix: /admin/api
 ```
@@ -35,22 +35,34 @@ sulu_webspace_settings_api:
 Add the admin JavaScript to `assets/admin/package.json`:
 
 ```json
-"sulu-webspace-settings-bundle": "file:../../vendor/eekes/sulu-webspace-settings-bundle/assets/js"
+{
+    "dependencies": {
+        "sulu-webspace-settings-bundle": "file:../../vendor/eekes/sulu-webspace-settings-bundle/assets/js"
+    }
+}
 ```
 
-Then rebuild the admin and create the database tables:
+Load it in `assets/admin/app.js`:
+
+```js
+import 'sulu-webspace-settings-bundle';
+```
+
+Rebuild the admin:
 
 ```bash
 bin/adminconsole sulu:admin:update-build
-bin/adminconsole doctrine:migrations:diff
-bin/adminconsole doctrine:migrations:migrate
-bin/adminconsole cache:clear
-bin/websiteconsole cache:clear
 ```
 
-`sulu:admin:update-build` does the whole JavaScript side itself — the import, `npm install` and
-`npm run build`. `doctrine:migrations:diff` writes a migration for *every* difference it finds,
-not just this bundle's two tables, so read the generated file before running it.
+Create the database tables:
+
+```bash
+bin/adminconsole doctrine:migrations:diff
+bin/adminconsole doctrine:migrations:migrate
+```
+
+`doctrine:migrations:diff` writes a migration for *every* difference it finds, not just this
+bundle's two tables, so read the generated file before running it.
 
 Reference rows are written on save, so existing records have none until they are saved. Run
 `bin/adminconsole sulu:reference:refresh` once after installing or upgrading, otherwise the HTTP
