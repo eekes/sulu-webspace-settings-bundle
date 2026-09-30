@@ -6,6 +6,7 @@ import {Form} from 'sulu-admin-bundle/views';
 import {ResourceStore} from 'sulu-admin-bundle/stores';
 import userStore from 'sulu-admin-bundle/stores/userStore/userStore';
 import settingsAreaStore from '../../stores/settingsAreaStore';
+import areaNavigationAttributes from '../../utils/areaNavigationAttributes';
 import SettingsActivityList from './SettingsActivityList';
 import SettingsToolbar from './SettingsToolbar';
 import webspaceSettingsFormStyles from './webspaceSettingsForm.scss';
@@ -178,7 +179,7 @@ class WebspaceSettingsForm extends React.Component<ViewProps> {
         const {router} = this.props;
 
         // picking an area is also how an editor leaves the activity trail
-        router.navigate(router.route.name, {...router.attributes, activity: false, area: areaKey});
+        router.navigate(router.route.name, areaNavigationAttributes(router.attributes, areaKey, this.locale.get()));
     };
 
     handleActivityClick: () => void = action(() => {
@@ -191,6 +192,7 @@ class WebspaceSettingsForm extends React.Component<ViewProps> {
         return (
             <div className={webspaceSettingsFormStyles.settingsView}>
                 <SettingsToolbar
+                    activeAreaKey={this.activityVisible ? undefined : this.areaKey}
                     activityVisible={this.activityVisible}
                     groups={this.areaGroups}
                     onActivityClick={settingsAreaStore.activityEnabled ? this.handleActivityClick : undefined}

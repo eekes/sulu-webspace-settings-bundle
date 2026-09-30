@@ -2,11 +2,15 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {Toolbar} from 'sulu-admin-bundle/components';
+import OptionList from 'sulu-admin-bundle/components/Toolbar/OptionList';
 import {translate} from 'sulu-admin-bundle/utils';
+import isActiveGroup from '../../utils/isActiveGroup';
 import settingsToolbarStyles from './settingsToolbar.scss';
 import type {SettingsAreaGroup} from '../../types';
 
 type Props = {|
+    /** the area the form shows, or nothing while the activity trail replaces it */
+    activeAreaKey: ?string,
     activityVisible: boolean,
     groups: Array<SettingsAreaGroup>,
     onActivityClick: ?() => void,
@@ -25,13 +29,21 @@ type Props = {|
  * be used.
  *
  * Each declared group of areas is one dropdown. A dropdown always reads as its group name, never
- * as the area currently open - which is also why it is a `Toolbar.Dropdown` and not a
- * `Toolbar.Select`: a select shows its selected option.
+ * as the area currently open - which is why it is not a `Toolbar.Select`: a select shows its
+ * selected option as its label. It is not a `Toolbar.Dropdown` either, which can mark neither the
+ * open area nor its group: it passes no value to its option list, and its button only looks active
+ * while it is open. So it is assembled from the two parts `Toolbar.Dropdown` is made of - a
+ * `Toolbar.Popover` whose class marks the group of the open area, and an `OptionList` that is given
+ * the open area as its value and so draws Sulu's own checkmark next to it.
  */
 @observer
 class SettingsToolbar extends React.Component<Props> {
+    handleOptionClick = (option: Object) => {
+        option.onClick();
+    };
+
     render() {
-        const {activityVisible, groups, onActivityClick} = this.props;
+        const {activeAreaKey, activityVisible, groups, onActivityClick} = this.props;
 
         const areaCount = groups.reduce((count, group) => count + group.areas.length, 0);
 
@@ -56,15 +68,32 @@ class SettingsToolbar extends React.Component<Props> {
                         {showGroups &&
                             <Toolbar.Items>
                                 {groups.map((group) => (
-                                    <Toolbar.Dropdown
+                                    <Toolbar.Popover
+                                        className={isActiveGroup(group, activeAreaKey)
+                                            ? `${settingsToolbarStyles.areaGroup} ${settingsToolbarStyles.activeGroup}`
+                                            : settingsToolbarStyles.areaGroup}
                                         icon={group.icon}
                                         key={group.name}
                                         label={translate(group.name)}
-                                        options={group.areas.map((area) => ({
-                                            label: translate(area.title),
-                                            onClick: () => this.props.onAreaChange(area.key),
-                                        }))}
-                                    />
+                                    >
+                                        {(onClose) => (
+                                            <div className={settingsToolbarStyles.areaOptions}>
+                                                <OptionList
+                                                    onClose={onClose}
+                                                    onOptionClick={this.handleOptionClick}
+                                                    options={group.areas.map((area) => ({
+                                                        label: translate(area.title),
+                                                        onClick: () => this.props.onAreaChange(area.key),
+                                                        value: area.key,
+                                                    }))}
+                                                    // the skin of the toolbar below; Items hands it to
+                                                    // the popover, which does not pass it on
+                                                    skin="dark"
+                                                    value={activeAreaKey}
+                                                />
+                                            </div>
+                                        )}
+                                    </Toolbar.Popover>
                                 ))}
                             </Toolbar.Items>
                         }

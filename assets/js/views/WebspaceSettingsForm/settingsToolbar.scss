@@ -1,3 +1,44 @@
+@import 'sulu-admin-bundle/containers/Application/colors.scss';
+
 .settings-toolbar {
     margin-bottom: 20px;
+}
+
+/*
+ * The open area and its group on Sulu's light blue, the colour of the active item in the main
+ * navigation, with white text - hovered, focused or open alike. Block comments: these files go
+ * through PostCSS, not Sass, and a line comment breaks the build.
+ *
+ * The class is doubled on purpose: Sulu colours a hovered or open toolbar button with
+ * `.dark:not(:disabled):hover` and `.dark:not(:disabled).active`, and only a more specific selector
+ * keeps the light blue there. The child combinator keeps it off the buttons of the option list.
+ */
+.active-group.active-group > button:not(:disabled) {
+    color: $white;
+    background-color: $shakespeare;
+}
+
+/*
+ * The open area in Sulu's light blue. The option list is Sulu's and its classes are hashed, but the
+ * open area is the option carrying Sulu's checkmark icon, whose class is global. Sulu lets a
+ * selected option's text inherit on hover, so the colour is set on the item as well.
+ */
+.area-options li:has(:global(.su-check)) {
+    color: $shakespeare;
+
+    button,
+    button:hover,
+    button:focus,
+    button:active {
+        color: $shakespeare;
+    }
+}
+
+/*
+ * `Toolbar.Items` draws a divider left of its first item. Here the dropdowns are the first thing in
+ * the toolbar, so that divider sits between the edge and the first dropdown and shows as a dark line
+ * next to a highlighted group.
+ */
+ul:has(> li > .area-group) {
+    border-left: 0;
 }

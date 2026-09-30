@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Eekes\SuluWebspaceSettingsBundle\Tests\Functional;
 
+use Eekes\SuluWebspaceSettingsBundle\Tests\Application\Settings\SocialSettings;
 use Sulu\Bundle\TagBundle\Entity\Tag;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -82,6 +83,35 @@ class SettingsSpecialTypesTest extends WebspaceSettingsTestCase
 
         // a live query, executed without a request
         $this->assertIsArray($resolved['teasers']);
+    }
+
+    /**
+     * Sulu's replacer only turns an unresolved resource into null when at least one other resource
+     * of the same content did resolve. When nothing resolves - every target of the area is gone -
+     * it hands the `ResolvableResource` objects back as they are, which a template cannot print
+     * and a typed read model cannot accept.
+     */
+    public function testATargetThatIsGoneIsNullEvenWhenNothingElseResolves(): void
+    {
+        static::getSettingsManager()->save('website', 'social', 'en', [
+            'link' => [
+                'provider' => 'page',
+                'href' => '55555555-5555-5555-5555-555555555555',
+                'locale' => 'en',
+            ],
+            'logo' => ['id' => 404, 'displayOption' => 'left'],
+            'landing_page' => '11111111-1111-1111-1111-111111111111',
+            'related_pages' => ['22222222-2222-2222-2222-222222222222'],
+        ]);
+
+        $settings = static::getSettings()->forWebspace('website')->forLocale('en');
+        $resolved = $settings->resolved('social');
+
+        $this->assertNull($resolved->get('link'));
+        $this->assertNull($resolved->get('logo'));
+        $this->assertNull($resolved->get('landing_page'));
+        $this->assertSame([], $resolved->get('related_pages'));
+        $this->assertNull($settings->get(SocialSettings::class)->link);
     }
 
     private function createTag(string $name): int

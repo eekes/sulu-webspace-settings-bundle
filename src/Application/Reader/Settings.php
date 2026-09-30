@@ -16,6 +16,7 @@ use Sulu\Bundle\HttpCacheBundle\ReferenceStore\ReferenceStoreInterface;
 use Sulu\Component\Webspace\Analyzer\RequestAnalyzerInterface;
 use Sulu\Component\Webspace\Manager\WebspaceManagerInterface;
 use Sulu\Content\Application\ContentResolver\ContentResolverInterface;
+use Sulu\Content\Application\ContentResolver\Value\ResolvableInterface;
 
 /**
  * @internal use {@see SettingsInterface}
@@ -94,7 +95,10 @@ final class Settings implements SettingsInterface
 
                     $resolved = $this->contentResolver->resolve($dimensionContent);
 
-                    return ['content' => $resolved['content'], 'view' => $resolved['view']];
+                    return [
+                        'content' => self::replaceUnresolved($resolved['content']),
+                        'view' => self::replaceUnresolved($resolved['view']),
+                    ];
                 },
             ),
         );
@@ -105,6 +109,46 @@ final class Settings implements SettingsInterface
         $area = $this->areaRegistry->getAreaForModel($modelClass);
 
         return $this->hydrator->hydrate($modelClass, $this->resolved($area->key)->all());
+    }
+
+    /**
+     * Sulu's replacer turns a resource whose target is gone into null only when at least one other
+     * resource of the same content did resolve; when none does, it returns the unresolved
+     * `ResolvableResource` objects as they are. Finish the job the way the replacer does it
+     * otherwise: null for a single value, and dropped from a list that held nothing else.
+     *
+     * @template TKey of array-key
+     *
+     * @param array<TKey, mixed> $values
+     *
+     * @return array<TKey, mixed>
+     */
+    private static function replaceUnresolved(array $values): array
+    {
+        $onlyResolvables = [] !== $values;
+
+        foreach ($values as $key => $value) {
+            if ($value instanceof ResolvableInterface) {
+                $values[$key] = null;
+
+                continue;
+            }
+
+            $onlyResolvables = false;
+
+            if (\is_array($value)) {
+                $values[$key] = self::replaceUnresolved($value);
+            }
+        }
+
+        if (!$onlyResolvables) {
+            return $values;
+        }
+
+        $isList = \array_is_list($values);
+        $values = \array_filter($values, static fn (mixed $value): bool => null !== $value);
+
+        return $isList ? \array_values($values) : $values;
     }
 
     private function resolveArea(string $areaKey): SettingsArea
