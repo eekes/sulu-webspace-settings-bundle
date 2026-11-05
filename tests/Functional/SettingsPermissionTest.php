@@ -127,7 +127,7 @@ class SettingsPermissionTest extends WebspaceSettingsTestCase
     /**
      * Creates a user holding exactly the given permissions and points the client at it.
      *
-     * @param array<string, list<string>> $permissions security context to the permission types granted on it
+     * @param array<string, list<'view'|'add'|'edit'|'delete'|'archive'|'live'|'security'>> $permissions security context to the permission types granted on it
      */
     private function authenticateWith(array $permissions): void
     {
