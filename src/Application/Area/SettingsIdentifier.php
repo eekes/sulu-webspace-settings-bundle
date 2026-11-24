@@ -22,10 +22,15 @@ final class SettingsIdentifier
      * webspace `foo` with area `bar-baz` and webspace `foo-bar` with area `baz` would otherwise
      * produce the same identifier and invalidate each other's pages.
      *
-     * It ends up inside a cache tag, so it also has to survive a Varnish ban regex - which rules
-     * out a pipe and anything else with a meaning there.
+     * It ends up inside a cache tag, which rules out more:
+     *
+     * - Sulu's default HTTP cache stores pages through Symfony Cache, which refuses a tag with one
+     *   of `{}()/\@:` - and swallows that in prod, so the page is silently never cached;
+     * - a Varnish ban matches the tag as a regex, which rules out a pipe and anything else with a
+     *   meaning there;
+     * - a comma separates the tags of a response.
      */
-    public const SEPARATOR = '::';
+    public const SEPARATOR = '~';
 
     public static function create(string $webspaceKey, string $areaKey): string
     {

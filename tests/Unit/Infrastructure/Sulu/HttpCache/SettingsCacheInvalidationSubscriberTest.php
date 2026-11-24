@@ -22,7 +22,7 @@ class SettingsCacheInvalidationSubscriberTest extends TestCase
         $cacheManager = $this->createMock(CacheManagerInterface::class);
         $cacheManager->expects($this->once())
             ->method('invalidateReference')
-            ->with('webspace_settings', 'website::social');
+            ->with('webspace_settings', 'website~social');
 
         (new SettingsCacheInvalidationSubscriber($cacheManager))->invalidate(
             new SettingsModifiedEvent('website', $this->area(), null, 'Social'),
